@@ -6,7 +6,7 @@
     <title>Smartech App Distribution</title>
     
     <meta property="og:title" content="Download Smartech App Build" />
-    <meta property="og:description" content="Tap here to install the latest iOS testing version securely." />
+    <meta property="og:description" content="Tap here to install the latest iOS App." />
     <meta property="og:url" content="https://arjun30.github.io/ios-distribution/" />
     <meta property="og:type" content="website" />
 
@@ -17,18 +17,18 @@
         /* Buttons */
         .btn { color: white; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; margin: 10px 0; width: 85%; border: none; font-size: 16px; cursor: pointer; text-align: center; }
         .btn-install { background-color: #0071e3; }
-        .btn-share { background-color: #34c759; }
-        .btn-whatsapp { background-color: #25D366; display: none; }
+        .btn-share { background-color: #34c759; margin-top: 15px; } /* Added margin for spacing below hint text */
+        .btn-whatsapp { background-color: #25D366; display: none; margin-top: 15px; }
 
         /* Layout Elements */
         .webview-warning { display: none; background-color: #ffcc00; color: #000; padding: 15px; font-weight: bold; border-radius: 10px; margin-bottom: 25px; font-size: 14px; line-height: 1.4; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .section-divider { margin-top: 25px; border-top: 1px solid #e5e5e7; padding-top: 25px; }
         .qr-code { background: #fafafa; padding: 15px; border-radius: 12px; display: inline-block; border: 1px solid #e5e5e7; }
-        .hint { font-size: 13px; color: #86868b; margin-top: 10px; }
+        .hint { font-size: 13px; color: #86868b; margin-top: 10px; margin-bottom: 5px; }
 
-        /* NEW: Loading/Installing Info Box Styling */
+        /* Loading/Installing Info Box Styling */
         .installing-status {
-            display: none; /* Hidden by default */
+            display: none;
             background-color: #e8f4fd;
             border: 1px solid #bce0fd;
             color: #0056b3;
@@ -42,7 +42,6 @@
         .installing-status h4 { margin: 0 0 8px 0; color: #004085; display: flex; align-items: center; }
         .installing-status p { margin: 0; font-size: 14px; color: #1d1d1f; line-height: 1.4; }
         
-        /* Simple CSS Spinner */
         .spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #0071e3;
@@ -66,7 +65,7 @@
     </div>
 
     <div class="card">
-        <h1>Install Smartech App </h1>
+        <h1>Install Smartech App</h1>
         <p>If you are viewing this page on your iPhone, tap below:</p>
         
         <a id="installBtn" class="btn btn-install" href="itms-services://?action=download-manifest&url=https://arjun30.github.io/ios-distribution/manifest.plist" onclick="startInstallation()">
@@ -79,7 +78,12 @@
         </div>
 
         <div class="section-divider">
-            <h3>Pass it on to Testers</h3>
+            <h3>Scan to Open on iPhone</h3>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://arjun30.github.io/ios-distribution/" alt="Scan to install" width="180" height="180">
+            </div>
+            <p class="hint">Point your iPhone Camera here to open the link.</p>
+
             <button id="shareBtn" class="btn btn-share" onclick="sharePage()">
                 📤 Share via Apps
             </button>
@@ -87,31 +91,20 @@
                 💬 Share via WhatsApp
             </a>
         </div>
-
-        <div class="section-divider">
-            <h3>Scan to Open on iPhone</h3>
-            <div class="qr-code">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://arjun30.github.io/ios-distribution/" alt="Scan to install" width="180" height="180">
-            </div>
-            <p class="hint">Point your iPhone Camera here to open the link cleanly.</p>
-        </div>
     </div>
 
     <script>
-        // NEW: Handles hiding the button and showing the info notice
         function startInstallation() {
-            // Give iOS a tiny fraction of a second to register the link click, then swap views
             setTimeout(function() {
                 document.getElementById('installBtn').style.display = 'none';
                 document.getElementById('installingStatus').style.display = 'block';
             }, 300);
         }
 
-        // Share Function Logic
         function sharePage() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'iOS Beta App Distribution',
+                    title: 'Smartech iOS App Build',
                     text: 'Install the latest iOS testing build here:',
                     url: 'https://arjun30.github.io/ios-distribution/'
                 })
@@ -123,7 +116,6 @@
             }
         }
 
-        // In-App Webview Detection Script
         document.addEventListener("DOMContentLoaded", function() {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
             var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
